@@ -8,24 +8,259 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 70px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem #fff, 0 0 0 0.25rem #ffb400;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* =========================================================
+   Design system "moto" — noir / ambre / blanc (style Motoblouz)
+   ========================================================= */
+:root {
+  --mb-black: #15171c;
+  --mb-amber: #ffb400;
+  --mb-amber-600: #e09e00;
+  --mb-red: #e63329;
+  --mb-darkred: #7c1f24;
+  --mb-blue: #2f9fd0;
+  --mb-green: #2e7d32;
+  --mb-ink: #1b1d21;
+  --mb-paper: #f4f5f7;
+}
+
+body {
+  background-color: var(--mb-paper);
+  color: var(--mb-ink);
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand, .mb-section-title, .display-4, .display-5, .display-6 {
+  font-family: "Oswald", system-ui, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: .01em;
+}
+
+/* --- Boutons : rectangulaires, gras, en capitales --- */
+.btn {
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--mb-amber);
+  --bs-btn-border-color: var(--mb-amber);
+  --bs-btn-color: #15171c;
+  --bs-btn-hover-bg: var(--mb-amber-600);
+  --bs-btn-hover-border-color: var(--mb-amber-600);
+  --bs-btn-hover-color: #15171c;
+  --bs-btn-active-bg: var(--mb-amber-600);
+  --bs-btn-active-border-color: var(--mb-amber-600);
+  --bs-btn-active-color: #15171c;
+}
+
+.btn-dark {
+  --bs-btn-bg: var(--mb-black);
+  --bs-btn-border-color: var(--mb-black);
+  --bs-btn-hover-bg: #000;
+  --bs-btn-hover-border-color: #000;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--mb-ink);
+  --bs-btn-border-color: #cdd2da;
+  --bs-btn-hover-bg: var(--mb-amber);
+  --bs-btn-hover-border-color: var(--mb-amber);
+  --bs-btn-hover-color: #15171c;
+  --bs-btn-active-bg: var(--mb-amber);
+  --bs-btn-active-border-color: var(--mb-amber);
+  --bs-btn-active-color: #15171c;
+}
+
+/* --- En-tête noir + accent ambre --- */
+.mb-header {
+  background: var(--mb-black);
+  border-bottom: 3px solid var(--mb-amber);
+}
+
+.mb-header .navbar-brand {
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-size: 1.5rem;
+}
+
+.mb-header .navbar-brand .accent {
+  color: var(--mb-amber);
+}
+
+.mb-header .nav-link {
+  color: rgba(255, 255, 255, .9) !important;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: .04em;
+  font-size: .82rem;
+}
+
+.mb-header .nav-link:hover {
+  color: var(--mb-amber) !important;
+}
+
+.mb-header .btn-link {
+  color: rgba(255, 255, 255, .9);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: .04em;
+  font-size: .82rem;
+  text-decoration: none;
+}
+
+.mb-header .btn-link:hover {
+  color: var(--mb-amber);
+}
+
+.mb-header .navbar-toggler {
+  border-color: rgba(255, 255, 255, .4);
+}
+
+/* --- Hero --- */
+.mb-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--mb-black);
+  color: #fff;
+  padding: 4rem 2rem;
+  border-radius: 6px;
+}
+
+.mb-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8%;
+  width: 42%;
+  height: 100%;
+  background: var(--mb-amber);
+  transform: skewX(-12deg);
+  opacity: .15;
+}
+
+.mb-hero h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mb-hero .accent {
+  color: var(--mb-amber);
+}
+
+/* --- Titres de section --- */
+.mb-section {
+  text-align: center;
+  margin: 2.5rem 0 1.5rem;
+}
+
+.mb-section-title {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  margin-bottom: .4rem;
+}
+
+.mb-section-title .hl {
+  box-shadow: inset 0 -.42em 0 rgba(255, 180, 0, .55);
+}
+
+.mb-section-sub {
+  color: #6b7280;
+}
+
+.mb-rule {
+  width: 64px;
+  height: 4px;
+  background: var(--mb-amber);
+  margin: .6rem auto 0;
+  border-radius: 2px;
+}
+
+/* --- Cartes --- */
+.card {
+  border: 1px solid #e8eaed;
+  border-radius: 6px;
+}
+
+.mb-card {
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.mb-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 .6rem 1.4rem rgba(15, 23, 42, .12);
+}
+
+.mb-card-accent {
+  border-top: 4px solid var(--mb-amber);
+}
+
+/* --- Tags / badges en bannière --- */
+.mb-tag {
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: #fff;
+  padding: .28rem .6rem;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+.mb-tag-amber { background: var(--mb-amber); color: #15171c; }
+.mb-tag-red { background: var(--mb-red); }
+.mb-tag-darkred { background: var(--mb-darkred); }
+.mb-tag-blue { background: var(--mb-blue); }
+.mb-tag-green { background: var(--mb-green); }
+.mb-tag-muted { background: #6b7280; }
+
+/* --- Photos --- */
+.moto-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.photo-placeholder {
+  height: 160px;
+  border: 1px dashed #cdd6e4;
+  border-radius: 4px;
+  color: #9aa4b2;
+}
+
+/* --- Pied de page sombre --- */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 70px;
+  background: var(--mb-black);
+  color: #9aa1ab;
+}
+
+.footer a {
+  color: var(--mb-amber);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #fff;
 }

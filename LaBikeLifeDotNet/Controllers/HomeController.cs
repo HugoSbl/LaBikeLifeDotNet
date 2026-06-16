@@ -1,13 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using LaBikeLifeDotNet.Models;
+using LaBikeLifeDotNet.Services;
+using LaBikeLifeDotNet.ViewModels;
 
 namespace LaBikeLifeDotNet.Controllers;
 
-public class HomeController : Controller
+public class HomeController(INhtsaVpicService vpic) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        // on n'affiche la recherche que si la personne est connectée
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            var makes = await vpic.GetMotorcycleMakesAsync();
+            var currentYear = DateTime.UtcNow.Year;
+            var years = Enumerable.Range(1995, currentYear - 1995 + 1).Reverse().ToList();
+
+            return View(new MotorcycleSearchViewModel { Makes = makes, Years = years });
+        }
+
         return View();
     }
 

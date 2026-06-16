@@ -1,0 +1,101 @@
+@model GarageItemViewModel
+@{
+    var moto = Model.Motorcycle;
+}
+
+<div class="table-responsive">
+    <table class="table table-sm align-middle mb-0">
+        <thead>
+        <tr>
+            <th>Entretien</th>
+            <th>Dernier fait</th>
+            <th>État</th>
+            <th class="text-end">Marquer fait</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var i in Model.Maintenance)
+        {
+            <tr class="@(i.Status == MaintenanceStatus.Overdue ? "table-danger" : null)">
+                <td>
+                    @i.Name<br/>
+                    <small class="text-muted">
+                        @i.Category
+                        @if (i.IntervalKm is int ik)
+                        {
+                            <text>· tous les @ik.ToString("N0") km</text>
+                        }
+                        @if (i.IntervalMonths is int im)
+                        {
+                            <text>· @im mois</text>
+                        }
+                    </small>
+                </td>
+                <td>
+                    @if (i.LastDoneKm is int ld)
+                    {
+                        <span>@ld.ToString("N0") km</span>
+                        <br/>
+                        <small class="text-muted">@i.LastDoneUtc?.ToLocalTime().ToString("dd/MM/yyyy")</small>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Jamais</span>
+                    }
+                </td>
+                <td>
+                    @if (i.Status == MaintenanceStatus.Overdue)
+                    {
+                        <span class="mb-tag mb-tag-red">En retard</span>
+                        <div class="small text-danger">
+                            @if (i.KmOverdue is int ov)
+                            {
+                                <text>dépassé de @ov.ToString("N0") km</text>
+                            }
+                            else
+                            {
+                                <text>échéance dépassée</text>
+                            }
+                        </div>
+                    }
+                    else if (i.Status == MaintenanceStatus.DueSoon)
+                    {
+                        <span class="mb-tag mb-tag-amber">À faire bientôt</span>
+                        <div class="small text-muted">dans @i.KmRemaining?.ToString("N0") km (à @i.NextDueKm?.ToString("N0") km)</div>
+                    }
+                    else if (i.Status == MaintenanceStatus.Calendar)
+                    {
+                        <span class="mb-tag mb-tag-blue">Calendaire</span>
+                        <div class="small text-muted">marquez-le fait pour le suivre</div>
+                    }
+                    else
+                    {
+                        <span class="mb-tag mb-tag-green">OK</span>
+                        <div class="small text-muted">
+                            @if (i.NextDueKm is int nd)
+                            {
+                                <text>prochaine à @nd.ToString("N0") km</text>
+                            }
+                            else if (i.NextDueUtc is DateTime du)
+                            {
+                                <text>prochaine le @du.ToLocalTime().ToString("dd/MM/yyyy")</text>
+                            }
+                        </div>
+                    }
+                </td>
+                <td class="text-end">
+                    <form asp-controller="Garage" asp-action="MarkDone" method="post" class="d-inline-flex align-items-center gap-1 justify-content-end">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="motorcycleId" value="@moto.Id"/>
+                        <input type="hidden" name="taskId" value="@i.TaskId"/>
+                        <input type="number" name="doneAtKm" min="0" value="@moto.CurrentMileageKm"
+                               class="form-control form-control-sm" style="width: 92px"
+                               title="Kilométrage auquel l'entretien a été effectué"/>
+                        <button class="btn btn-sm btn-success" type="submit">Fait</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

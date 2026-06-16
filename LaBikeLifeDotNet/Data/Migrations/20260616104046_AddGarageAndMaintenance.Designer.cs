@@ -3,6 +3,7 @@ using System;
 using LaBikeLifeDotNet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,39 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaBikeLifeDotNet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260616104046_AddGarageAndMaintenance")]
+    partial class AddGarageAndMaintenance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.6");
-
-            modelBuilder.Entity("LaBikeLifeDotNet.Models.MaintenanceRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LastDoneKm")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastDoneUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("MaintenanceTaskId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserMotorcycleId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaintenanceTaskId");
-
-                    b.HasIndex("UserMotorcycleId", "MaintenanceTaskId");
-
-                    b.ToTable("MaintenanceRecords");
-                });
 
             modelBuilder.Entity("LaBikeLifeDotNet.Models.MaintenanceTask", b =>
                 {
@@ -188,10 +164,6 @@ namespace LaBikeLifeDotNet.Data.Migrations
 
                     b.Property<string>("FuelType")
                         .HasMaxLength(60)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImageUrl")
-                        .HasMaxLength(600)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Make")
@@ -419,25 +391,6 @@ namespace LaBikeLifeDotNet.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("LaBikeLifeDotNet.Models.MaintenanceRecord", b =>
-                {
-                    b.HasOne("LaBikeLifeDotNet.Models.MaintenanceTask", "MaintenanceTask")
-                        .WithMany()
-                        .HasForeignKey("MaintenanceTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LaBikeLifeDotNet.Models.UserMotorcycle", "UserMotorcycle")
-                        .WithMany()
-                        .HasForeignKey("UserMotorcycleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MaintenanceTask");
-
-                    b.Navigation("UserMotorcycle");
                 });
 
             modelBuilder.Entity("LaBikeLifeDotNet.Models.UserMotorcycle", b =>

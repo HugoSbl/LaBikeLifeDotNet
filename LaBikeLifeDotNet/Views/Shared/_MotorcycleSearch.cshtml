@@ -1,0 +1,51 @@
+@model MotorcycleSearchViewModel
+
+<form asp-controller="Garage" asp-action="AddToGarage" method="post" id="moto-search-form">
+    @Html.AntiForgeryToken()
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label" for="make">Marque</label>
+            <input id="make" name="make" class="form-control" list="makes-list" autocomplete="off"
+                   placeholder="Tapez pour filtrer…" required/>
+            <datalist id="makes-list">
+                @foreach (var m in Model.Makes)
+                {
+                    <option value="@m"></option>
+                }
+            </datalist>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="year">Année</label>
+            <select id="year" name="year" class="form-select" required>
+                <option value="">— Choisir —</option>
+                @foreach (var y in Model.Years)
+                {
+                    <option value="@y">@y</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-5">
+            <label class="form-label" for="model">Modèle</label>
+            <input id="model" name="model" class="form-control" list="models-list" autocomplete="off"
+                   placeholder="Choisir d'abord la marque et l'année" required disabled
+                   data-models-url="@Url.Action("Models", "Garage")"/>
+            <datalist id="models-list"></datalist>
+        </div>
+    </div>
+    <div class="row g-3 mt-1">
+        <div class="col-md-5">
+            <label class="form-label" for="vin">VIN (optionnel — pour les caractéristiques détaillées)</label>
+            <input id="vin" name="vin" class="form-control" maxlength="17" placeholder="17 caractères"/>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="mileageKm">Kilométrage actuel</label>
+            <div class="input-group">
+                <input id="mileageKm" name="mileageKm" type="number" min="0" value="0" class="form-control"/>
+                <span class="input-group-text">km</span>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Ajouter à mon garage</button>
+        </div>
+    </div>
+</form>
